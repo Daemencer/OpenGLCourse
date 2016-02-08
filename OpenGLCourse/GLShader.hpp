@@ -5,8 +5,8 @@
 //
 // ---------------------------------------------------------------------------
 
-#ifndef __GL_SHADER_HPP__
-#define __GL_SHADER_HPP__
+#ifndef GL_SHADER_H
+#define GL_SHADER_H
 
 // --- Includes --------------------------------------------------------------
 
@@ -45,4 +45,4 @@ private:
 	GLuint m_GeometryShader;
 };
 
-#endif // __GL_SHADER_HPP__
+#endif // GL_SHADER_H
