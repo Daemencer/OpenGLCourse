@@ -6,7 +6,7 @@
 #define FREEGLUT_LIB_PRAGMAS 0
 #include "Freeglut.h"
 
-//#include "GLShader.hpp"
+#include "GLShader.hpp"
 
 #if defined(_WIN64)
 #pragma comment(lib, "freeglut64.lib")
