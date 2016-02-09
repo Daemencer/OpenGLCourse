@@ -8,6 +8,8 @@
 #pragma comment(lib, "glew32.lib")
 #endif
 
+using namespace OpenGL;
+
 int main(int ac, char* av[])
 {
 	Device*	device = new Device();

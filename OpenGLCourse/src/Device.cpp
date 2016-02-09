@@ -13,15 +13,20 @@
 #include "GLShader.hpp"
 
 
+namespace OpenGL {
+
+
+ShaderManager* Device::ShaderMgr = new ShaderManager();
+
 Device::Device()
 {
-	_shaderMgr = new ShaderManager();
+
 }
 
 
 Device::~Device()
 {
-	delete _shaderMgr;
+
 }
 
 
@@ -124,11 +129,9 @@ void CreateFramebuffer()
 }
 
 
-void GenerateQuadVAO()
+void	Device::GenerateQuadVAO()
 {
-	g_GrayscaleShader.LoadVertexShader("basicGrayscale.vs");
-	g_GrayscaleShader.LoadFragmentShader("basicGrayscale.fs");
-	g_GrayscaleShader.Create();
+	Device::ShaderMgr->AddNewProgram("grayscale", "basicGrayscale.vs", "basicGrayscale.fs");
 
 	static const float g_Positions[] = {
 		-1.0f, 1.0f,	// s0
@@ -156,7 +159,7 @@ void GenerateQuadVAO()
 		0, 2, 3		// f1
 	};
 
-	auto program = g_GrayscaleShader.GetProgram();
+	auto program = Device::ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
 
 	auto positionLoc = glGetAttribLocation(program, "a_position");
@@ -226,7 +229,7 @@ auto	Device::Initialize() -> void
 
 	glewInit();
 
-	_shaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
+	Device::ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
 	static const float g_Position[] = {
 		// position		
@@ -255,7 +258,7 @@ auto	Device::Initialize() -> void
 		0, 2, 3		// f1
 	};
 
-	GLuint program = _shaderMgr->GetProgram("basic");
+	GLuint program = Device::ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
 
 	auto positionLoc = glGetAttribLocation(program, "a_position");
@@ -314,7 +317,7 @@ auto	Device::Initialize() -> void
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	texId = CreateTexture("../Textures/test.png", true);
+	texId = CreateTexture("resources/textures/test.png", true);
 
 	CreateFramebuffer();
 
@@ -380,7 +383,7 @@ auto	Device::_Render() -> void
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
 
-	auto program = g_BasicShader.GetProgram();
+	auto program = Device::ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
 
 	static float time = 0.0f;
@@ -430,11 +433,12 @@ auto	Device::_Render() -> void
 	glBindTexture(GL_TEXTURE_2D, texId);
 
 	// framebuffer drawing
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	/*glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	glViewport(0, 0, 800, 600);
+	glEnable(GL_DEPTH_TEST);*/
+
 	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
 
 	// draw scene
 	glBindVertexArray(VAO);
@@ -442,19 +446,22 @@ auto	Device::_Render() -> void
 	glBindVertexArray(0);
 
 	// second pass, back to default framebuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
-	glViewport(0, 0, 800, 600);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+	//glViewport(0, 0, 800, 600);
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// now draw for real
-	glUseProgram(g_GrayscaleShader.GetProgram());
-	glBindVertexArray(GVAO);
-	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, quadTextureId);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0); // everything to draw a quad
-	glBindVertexArray(0);
+	//glUseProgram(g_GrayscaleShader.GetProgram());
+	//glBindVertexArray(GVAO);
+	//glDisable(GL_DEPTH_TEST);
+	//glBindTexture(GL_TEXTURE_2D, quadTextureId);
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0); // everything to draw a quad
+	//glBindVertexArray(0);
 
 	glUseProgram(0);
 	glutSwapBuffers();
 }
+
+
+} // OpenGL

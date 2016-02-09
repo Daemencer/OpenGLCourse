@@ -2,23 +2,17 @@
 
 #include "GLShader.hpp"
 
-ShaderManager::ShaderManager()
-{
-
-}
-
-
-ShaderManager::~ShaderManager()
-{
-
-}
+namespace OpenGL {
 
 
 auto	ShaderManager::AddNewProgram(const std::string& name, const std::string& vertexShaderPath, const std::string& fragmentShaderPath) -> void
 {
 	GLShader shader;
-	shader.LoadVertexShader(vertexShaderPath.c_str());
-	shader.LoadFragmentShader(fragmentShaderPath.c_str());
+	std::string vertex = _shaderPath + vertexShaderPath;
+	std::string fragment = _shaderPath + fragmentShaderPath;
+
+	shader.LoadVertexShader(vertex.c_str());
+	shader.LoadFragmentShader(fragment.c_str());
 	shader.Create();
 
 	_programs.emplace(name, shader);
@@ -27,5 +21,8 @@ auto	ShaderManager::AddNewProgram(const std::string& name, const std::string& ve
 
 auto	ShaderManager::GetProgram(const std::string& progName) const -> GLuint
 {
-	return _programs[progName].GetProgram();
+	return _programs.at(progName).GetProgram();
 }
+
+
+} // OpenGL

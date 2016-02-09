@@ -74,11 +74,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Libs;Libs\stb-master;Libs\glew\include\GL;Libs\GL;Libs\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;libs;libs\stb-master;libs\glew\include\GL;libs\GL;libs\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>Libs\glew\lib\Release\Win32;Libs\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>libs\glew\lib\Release\Win32;libs\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -98,13 +98,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Libs;Libs\stb-master;Libs\glew\include\GL;Libs\GL;Libs\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;libs;libs\stb-master;libs\glew\include\GL;libs\GL;libs\freeglut\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>Libs\glew\lib\Release\Win32;Libs\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>libs\glew\lib\Release\Win32;libs\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,16 +122,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="GLShader.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="src\Device.cpp" />
+    <ClCompile Include="src\GLShader.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Device.hpp" />
-    <ClInclude Include="GLShader.hpp" />
-    <ClInclude Include="Model.hpp" />
-    <ClInclude Include="ShaderManager.hpp" />
+    <ClInclude Include="include\Device.hpp" />
+    <ClInclude Include="include\GLShader.hpp" />
+    <ClInclude Include="include\Model.hpp" />
+    <ClInclude Include="include\ShaderManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,9 @@
 
 #include "ShaderManager.hpp"
 
+namespace OpenGL {
+
+
 class Device
 {
 public:
@@ -18,7 +21,12 @@ private:
 	static auto	_Update() -> void;
 	static auto	_Render() -> void;
 
-	ShaderManager*	_shaderMgr = nullptr;
+	void	GenerateQuadVAO();
+
+	static	ShaderManager*	ShaderMgr;
 };
+
+
+} // OpenGL
 
 #endif /* __DEVICE_HPP__ */
