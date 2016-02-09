@@ -1,7 +1,7 @@
 #ifndef __DEVICE_HPP__
 #define __DEVICE_HPP__
 
-#include "GLShader.hpp"
+#include "ShaderManager.hpp"
 
 class Device
 {
@@ -17,6 +17,8 @@ public:
 private:
 	static auto	_Update() -> void;
 	static auto	_Render() -> void;
+
+	ShaderManager*	_shaderMgr = nullptr;
 };
 
 #endif /* __DEVICE_HPP__ */
