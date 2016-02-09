@@ -1,12 +1,15 @@
 #ifndef __DEVICE_HPP__
 #define __DEVICE_HPP__
 
+#include "Singleton.hpp"
 #include "ShaderManager.hpp"
+#include "Model.hpp"
 
 namespace OpenGL {
 
 
-class Device
+class Device :
+	public Singleton<Device>
 {
 public:
 	Device();
@@ -15,15 +18,23 @@ public:
 	auto	Initialize() -> void;
 	auto	Shutdown() -> void;
 
-	auto	Run(int, char*[]) -> void;
+	ShaderManager*	ShaderMgr;
 
-private:
-	static auto	_Update() -> void;
-	static auto	_Render() -> void;
+	Model*	model1 = nullptr;
+
+	GLuint GVAO;
+	GLuint GVBOpos;
+	GLuint GVBOcolor;
+	GLuint GVBOtexCoords;
+	GLuint GIBO;
+
+	GLuint FBO;
+
+	GLuint texId;
+	GLuint quadTextureId;
 
 	void	GenerateQuadVAO();
 
-	static	ShaderManager*	ShaderMgr;
 };
 
 
