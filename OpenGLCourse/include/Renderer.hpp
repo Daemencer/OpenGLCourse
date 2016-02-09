@@ -7,13 +7,13 @@ namespace OpenGL {
 class Renderer
 {
 public:
-	Renderer();
+	Renderer(int, char*[]);
 	~Renderer();
 
-	auto	Initialize() -> void;
+	auto	Initialize(int, char*[]) -> void;
 	auto	Shutdown() -> void;
 
-	auto	Run(int, char*[]) -> void;
+	auto	Run() -> void;
 	
 private:
 	static	auto	Update() -> void;

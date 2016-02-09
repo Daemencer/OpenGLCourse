@@ -170,9 +170,9 @@ auto	Device::Initialize() -> void
 
 	texId = Textures::CreateTexture("resources/textures/test.png", true);
 
-	CreateFramebuffer();
+	//CreateFramebuffer();
 
-	GenerateQuadVAO();
+	//GenerateQuadVAO();
 
 	glUseProgram(0);
 }

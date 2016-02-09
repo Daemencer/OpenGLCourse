@@ -20,6 +20,11 @@ public:
 private:
 	GLuint	_vao = -1;
 
+	GLuint	_VBOpos = -1;
+	GLuint	_VBOcolor = -1;
+	GLuint	_VBOtexcoords = -1;
+	GLuint	_IBO = -1;
+
 };
 
 

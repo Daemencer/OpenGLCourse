@@ -14,9 +14,9 @@
 namespace OpenGL {
 
 
-Renderer::Renderer()
+Renderer::Renderer(int ac, char* av[])
 {
-	Initialize();
+	Initialize(ac, av);
 }
 
 
@@ -26,9 +26,16 @@ Renderer::~Renderer()
 }
 
 
-auto	Renderer::Initialize() -> void
+auto	Renderer::Initialize(int ac, char* av[]) -> void
 {
-	Device::GetInstance()->Initialize();
+	glutInit(&ac, av);
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+	glutInitWindowSize(800, 600);
+	glutCreateWindow("OpenGL Renderer");
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE
+		, GLUT_ACTION_CONTINUE_EXECUTION);
+	glutIdleFunc(Update);
+	glutDisplayFunc(Render);
 }
 
 
@@ -37,17 +44,8 @@ auto	Renderer::Shutdown() -> void
 }
 
 
-auto	Renderer::Run(int ac, char* av[]) -> void
+auto	Renderer::Run() -> void
 {
-	glutInit(&ac, av);
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
-	glutInitWindowSize(800, 600);
-	glutCreateWindow("OpenGL Renderer");
-	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE
-				  , GLUT_ACTION_CONTINUE_EXECUTION);
-	glutIdleFunc(Update);
-	glutDisplayFunc(Render);
-
 	glutMainLoop();
 }
 
@@ -128,7 +126,7 @@ auto	Renderer::Render() -> void
 
 	// draw scene
 	glBindVertexArray(Device::GetInstance()->model1->GetModelVAO());
-	printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
+	//printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 

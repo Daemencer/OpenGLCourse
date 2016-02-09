@@ -2,14 +2,7 @@
 #define __OBJ_PARSER_HPP__
 
 #include <vector>
-#include <regex>
-
-static const std::regex	FloatComponent("(-?\\d+(\\.\\d+(E-?\\d+)?)?)");
-static const std::regex	Object("((\\w* ?)+)");
-static const std::regex VertexLine("[\\s\\S]*");
-static const std::regex	TextureLine("[\\s\\S]*");
-static const std::regex	NormalLine("[\\s\\S]*");
-static const std::regex	Face("(-?\\d+)\\/(-?\\d*)\\/(-?\\d*) (-?\\d+)\\/(-?\\d*)\\/(-?\\d*) (-?\\d+)\\/(-?\\d*)\\/(-?\\d*)");
+#include <iostream>
 
 struct Vector2
 {
@@ -34,7 +27,7 @@ struct Vector3
 	float x, y, z;
 };
 
-struct s_Obj
+struct Mesh
 {
 	std::vector<Vector3>	positions;
 	std::vector<Vector3>	colors;
@@ -48,7 +41,7 @@ public:
 	ObjParser() = delete;
 	~ObjParser() = delete;
 
-	static	auto	ParseObj(const std::string& path) -> s_Obj&;
+	static	auto	ParseObj(const std::string& path) -> Mesh&;
 
 	///////////
 	static	auto	TestLine(std::string&) -> std::string;
@@ -64,7 +57,7 @@ private:
 	static	auto	_GetLine(char const*, char separator = '\n') -> char*;
 	static	auto	_GetWord(char const*, char separator = ' ') -> char*;
 
-	s_Obj*	_wavefront;
+	Mesh*	_wavefront;
 
 };
 

@@ -2,6 +2,7 @@
 
 in VS_OUTPUT
 {
+	vec3 v_normal;
 	vec4 v_fragmentColor;
 	vec2 v_texCoords;
 } IN;
