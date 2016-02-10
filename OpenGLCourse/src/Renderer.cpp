@@ -36,6 +36,7 @@ auto	Renderer::Initialize(int ac, char* av[]) -> void
 		, GLUT_ACTION_CONTINUE_EXECUTION);
 	glutIdleFunc(Update);
 	glutDisplayFunc(Render);
+	glewInit();
 }
 
 
@@ -114,6 +115,7 @@ auto	Renderer::Render() -> void
 	auto matrixLocation2 = glGetUniformLocation(program, "project");
 	glUniformMatrix4fv(matrixLocation2, 1, GL_FALSE, project);
 
+	std::cout << Device::GetInstance()->texId << std::endl;
 	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
 
 	// framebuffer drawing
@@ -125,9 +127,10 @@ auto	Renderer::Render() -> void
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// draw scene
+	std::cout << Device::GetInstance()->model1->GetModelVAO() << std::endl;
 	glBindVertexArray(Device::GetInstance()->model1->GetModelVAO());
 	//printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 
 	// second pass, back to default framebuffer
@@ -149,4 +152,4 @@ auto	Renderer::Render() -> void
 }
 
 
-}
+} // OpenGL

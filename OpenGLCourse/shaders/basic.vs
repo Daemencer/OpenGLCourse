@@ -28,8 +28,17 @@ out VS_OUTPUT
 	vec2 v_texCoords;
 } OUT;
 
+//struct Light
+//{
+//	vec3	direction;
+//	vec3 	la;
+//};
+//uniform Light	u_directionalLight;
+
 void main(void)
 {
+	//mix(U, V, factor);
+
 	//vec3 N = (mat3)model * a_normal;
 	vec3 N = (model * vec4(a_normal, 0.0)).xyz;
 	N = normalize(N);

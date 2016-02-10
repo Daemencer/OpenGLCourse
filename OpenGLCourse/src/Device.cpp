@@ -160,19 +160,20 @@ auto	Device::Initialize() -> void
 	printf("Pilote : %s\n", glGetString(GL_RENDERER));
 	printf("Version GLSL : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	glewInit();
+	//glewInit();
 
 	ShaderMgr = new ShaderManager();
 
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
-	model1 = new Model();
+	//PyramidModel* test = new PyramidModel();
+
+	model1 = new CubeModel();
+	model1->Initialize();
 
 	texId = Textures::CreateTexture("resources/textures/test.png", true);
 
 	//CreateFramebuffer();
-
-	//GenerateQuadVAO();
 
 	glUseProgram(0);
 }

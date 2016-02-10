@@ -3,7 +3,8 @@
 
 #include "Singleton.hpp"
 #include "ShaderManager.hpp"
-#include "Model.hpp"
+#include "CubeModel.hpp"
+#include "PyramidModel.hpp"
 
 namespace OpenGL {
 
@@ -20,7 +21,7 @@ public:
 
 	ShaderManager*	ShaderMgr;
 
-	Model*	model1 = nullptr;
+	Model*	model1;
 
 	GLuint GVAO;
 	GLuint GVBOpos;
