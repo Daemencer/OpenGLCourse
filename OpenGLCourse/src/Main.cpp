@@ -43,7 +43,7 @@ int main(int ac, char* av[])
 
 	///////////////////
 
-	//Mesh	mesh = ObjParser::ParseObj("resources/models/test.obj");
+	Mesh	mesh = ObjParser::ParseObj("resources/models/test.obj");
 
 	Renderer*	renderer = new Renderer(ac, av);
 

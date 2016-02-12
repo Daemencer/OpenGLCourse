@@ -4,7 +4,6 @@
 #include "Singleton.hpp"
 #include "ShaderManager.hpp"
 #include "CubeModel.hpp"
-#include "PyramidModel.hpp"
 
 namespace OpenGL {
 

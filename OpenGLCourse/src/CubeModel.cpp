@@ -69,7 +69,7 @@ auto	CubeModel::Initialize() -> void
 		0.0f, 1.0f,
 		0.0f, 0.0f,
 		1.0f, 0.0f,
-		1.0f, 1.0f,
+		1.0f, 1.0f
 	};
 
 	float normals[] = {
@@ -102,7 +102,7 @@ auto	CubeModel::Initialize() -> void
 		0.0f, -1.0f, 0.0f,
 		0.0f, -1.0f, 0.0f,
 		0.0f, -1.0f, 0.0f,
-		0.0f, -1.0f, 0.0f,
+		0.0f, -1.0f, 0.0f
 	};
 
 	unsigned short indices[] = {
@@ -123,7 +123,7 @@ auto	CubeModel::Initialize() -> void
 		16, 18, 19,
 		// bottom face
 		20, 21, 22,
-		20, 22, 23,
+		20, 22, 23
 	};
 
 	_positions.insert(_positions.begin(), pos, pos + 24 * 3);

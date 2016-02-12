@@ -143,7 +143,6 @@
     <ClInclude Include="include\ObjModel.hpp" />
     <ClInclude Include="include\ObjParser.hpp" />
     <ClInclude Include="include\Parser.hpp" />
-    <ClInclude Include="include\PyramidModel.hpp" />
     <ClInclude Include="include\Renderer.hpp" />
     <ClInclude Include="include\ShaderManager.hpp" />
     <ClInclude Include="include\Singleton.hpp" />

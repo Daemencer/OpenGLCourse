@@ -166,8 +166,6 @@ auto	Device::Initialize() -> void
 
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
-	//PyramidModel* test = new PyramidModel();
-
 	model1 = new CubeModel();
 	model1->Initialize();
 
