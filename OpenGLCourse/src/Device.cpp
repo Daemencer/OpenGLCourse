@@ -160,14 +160,12 @@ auto	Device::Initialize() -> void
 	printf("Pilote : %s\n", glGetString(GL_RENDERER));
 	printf("Version GLSL : %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	//glewInit();
-
 	ShaderMgr = new ShaderManager();
 
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
-	model1 = new CubeModel();
-	model1->Initialize();
+	model = new ObjModel();
+	model->Initialize("resources/models/test.obj");
 
 	texId = Textures::CreateTexture("resources/textures/test.png", true);
 
@@ -189,7 +187,7 @@ auto	Device::Shutdown() -> void
 	glDeleteFramebuffers(1, &FBO);
 
 	delete ShaderMgr;
-	delete model1;
+	delete model;
 }
 
 

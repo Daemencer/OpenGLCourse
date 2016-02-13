@@ -20,25 +20,25 @@ auto	Model::Initialize() -> void
 	glUseProgram(program);
 
 	auto positionLoc = glGetAttribLocation(program, "a_position");
-	//auto colorLoc = glGetAttribLocation(program, "a_normal");
 	auto texcoordsLoc = glGetAttribLocation(program, "a_texcoords");
+	auto normalLoc = glGetAttribLocation(program, "a_normal");
 
 	glGenBuffers(1, &_VBOpos);
-	//glGenBuffers(1, &_VBOnormals);
 	glGenBuffers(1, &_VBOtexcoords);
+	glGenBuffers(1, &_VBOnormals);
 	glGenBuffers(1, &_IBO);
 
 	// data
 	glBindBuffer(GL_ARRAY_BUFFER, _VBOpos);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 24 * 3, _positions.data(), GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _posisitionCount, _positions.data(), GL_STREAM_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, _VBOtexcoords);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 24 * 2, _texcoords.data(), GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, _VBOnormals);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 24 * 3, _normals.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _texcoordCount, _texcoords.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, _VBOnormals);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _normalCount, _normals.data(), GL_STATIC_DRAW);
 
 	// indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * 12 * 3, _indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * _indexCount, _indices.data(), GL_STATIC_DRAW);
 
 	// reset binding
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -57,14 +57,14 @@ auto	Model::Initialize() -> void
 	// explain openGL how to use the data
 	glBindBuffer(GL_ARRAY_BUFFER, _VBOpos);
 	glVertexAttribPointer(positionLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
-	/*glBindBuffer(GL_ARRAY_BUFFER, _VBOnormals);
-	glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);*/
 	glBindBuffer(GL_ARRAY_BUFFER, _VBOtexcoords);
 	glVertexAttribPointer(texcoordsLoc, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0);
+	glBindBuffer(GL_ARRAY_BUFFER, _VBOnormals);
+	glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 
 	glEnableVertexAttribArray(positionLoc);
-	//glEnableVertexAttribArray(normalLoc);
 	glEnableVertexAttribArray(texcoordsLoc);
+	glEnableVertexAttribArray(normalLoc);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IBO);
 
@@ -85,8 +85,8 @@ auto	Model::Shutdown() -> void
 	_indices.clear();
 
 	glDeleteBuffers(1, &_VBOpos);
-	//glDeleteBuffers(1, &_VBOnormals);
 	glDeleteBuffers(1, &_VBOtexcoords);
+	glDeleteBuffers(1, &_VBOnormals);
 	glDeleteBuffers(1, &_IBO);
 
 	glDeleteVertexArrays(1, &_vao);

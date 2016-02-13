@@ -62,10 +62,11 @@ auto	Renderer::Render() -> void
 	//glEnable(GL_SCISSOR_TEST);
 	//glScissor(0, 0, 640, 480);
 	glEnable(GL_CULL_FACE);
-	//glFrontFace(GL_CW);
-	/*glEnable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
+	//glEnable(GL_BLEND);
+	//glBlendEquation(GL_FUNC_ADD);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 
 
 	auto program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
@@ -104,8 +105,6 @@ auto	Renderer::Render() -> void
 		0.f, 0.f, -1.f, 0.f
 	};
 
-	// soustraire la moitie de l'ecran puis diviser par la moitie de l'ecran
-
 	auto matrixLocation1 = glGetUniformLocation(program, "model");
 	glUniformMatrix4fv(matrixLocation1, 1, GL_FALSE, rotationMatrix);
 
@@ -115,7 +114,6 @@ auto	Renderer::Render() -> void
 	auto matrixLocation2 = glGetUniformLocation(program, "project");
 	glUniformMatrix4fv(matrixLocation2, 1, GL_FALSE, project);
 
-	//std::cout << Device::GetInstance()->texId << std::endl;
 	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
 
 	// framebuffer drawing
@@ -128,9 +126,9 @@ auto	Renderer::Render() -> void
 
 	// draw scene
 	//std::cout << Device::GetInstance()->model1->GetModelVAO() << std::endl;
-	glBindVertexArray(Device::GetInstance()->model1->GetModelVAO());
+	glBindVertexArray(Device::GetInstance()->model->GetModelVAO());
 	//printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, Device::GetInstance()->model->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 
 	// second pass, back to default framebuffer

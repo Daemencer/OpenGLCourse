@@ -18,6 +18,8 @@ public:
 
 	auto	GetModelVAO() const->GLuint; // just return a value, computing is in Initialize so that it's done only once
 
+	auto	GetModelIndexCount() const -> unsigned int { return _indexCount; }
+
 protected:
 	GLuint	_vao			= -1;
 
@@ -26,9 +28,16 @@ protected:
 	GLuint	_VBOnormals		= -1;
 	GLuint	_IBO			= -1;
 
+	unsigned int				_posisitionCount	= 0u;
 	std::vector<float>			_positions;
+
+	unsigned int				_texcoordCount		= 0u;
 	std::vector<float>			_texcoords;
+
+	unsigned int				_normalCount		= 0u;
 	std::vector<float>			_normals;
+
+	unsigned int				_indexCount			= 0u;
 	std::vector<unsigned short>	_indices;
 
 };

@@ -7,11 +7,13 @@
 namespace OpenGL {
 
 
-std::unordered_map<double, unsigned short> ObjParser::_hashTable = std::unordered_map<double, unsigned short>();
+std::unordered_map<long long, const Vertex&> ObjParser::_hashTable = std::unordered_map<long long, const Vertex&>();
 
 
 auto	ObjParser::ParseObj(const std::string& path) -> Mesh
 {
+	ObjParser::_hashTable.clear();
+
 	Mesh mesh;
 
 	std::string str;
@@ -101,8 +103,7 @@ auto	ObjParser::ParseObj(const std::string& path) -> Mesh
 				normal = normals[std::stoi(ret, &s) - 1];
 
 				Vertex v1(position, texcoord, normal);
-				mesh.points.push_back(v1);
-				mesh.indices.push_back(ObjParser::_FindIndex(mesh, v1));
+				ObjParser::_AddVertex(&mesh, v1);
 				///////////////////////
 
 				///////////////////////
@@ -127,8 +128,7 @@ auto	ObjParser::ParseObj(const std::string& path) -> Mesh
 				normal = normals[std::stoi(ret, &s) - 1];
 
 				Vertex v2(position, texcoord, normal);
-				mesh.points.push_back(v2);
-				mesh.indices.push_back(ObjParser::_FindIndex(mesh, v2));
+				ObjParser::_AddVertex(&mesh, v2);
 				///////////////////////
 
 				///////////////////////
@@ -153,8 +153,7 @@ auto	ObjParser::ParseObj(const std::string& path) -> Mesh
 				normal = normals[std::stoi(ret, &s) - 1];
 
 				Vertex v3(position, texcoord, normal);
-				mesh.points.push_back(v3);
-				mesh.indices.push_back(ObjParser::_FindIndex(mesh, v3));
+				ObjParser::_AddVertex(&mesh, v3);
 				///////////////////////
 			}
 			else if (subString == "vp" || subString == "mt" || subString == "us" || subString == "s " || subString == "g ")
@@ -162,17 +161,28 @@ auto	ObjParser::ParseObj(const std::string& path) -> Mesh
 				printf("Unrecognized character, discarding the line...\n");
 			}
 			else if (subString == "# " || subString == "##" || subString == "\n" || subString == "") { }
-			else
-			{
-				printf("Failed to read the line, returning...\n");
-				return mesh;
-			}
 		}
 	}
 	else
 		printf("Failed to open file... Wrong path probably");
 
 	_hashTable.clear();
+
+	std::cout << mesh.points[12].position.x << ", " << mesh.points[12].position.y << ", " << mesh.points[12].position.z << std::endl;
+	std::cout << mesh.points[12].texcoord.x << ", " << mesh.points[12].texcoord.y << std::endl;
+	std::cout << mesh.points[12].normal.x << ", " << mesh.points[12].normal.y << ", " << mesh.points[12].normal.z << std::endl;
+
+	std::cout << mesh.points[13].position.x << ", " << mesh.points[13].position.y << ", " << mesh.points[13].position.z << std::endl;
+	std::cout << mesh.points[13].texcoord.x << ", " << mesh.points[13].texcoord.y << std::endl;
+	std::cout << mesh.points[13].normal.x << ", " << mesh.points[13].normal.y << ", " << mesh.points[13].normal.z << std::endl << std::endl;
+
+	std::cout << mesh.points[14].position.x << ", " << mesh.points[14].position.y << ", " << mesh.points[14].position.z << std::endl;
+	std::cout << mesh.points[14].texcoord.x << ", " << mesh.points[14].texcoord.y << std::endl;
+	std::cout << mesh.points[14].normal.x << ", " << mesh.points[14].normal.y << ", " << mesh.points[14].normal.z << std::endl << std::endl;
+
+	std::cout << mesh.points[15].position.x << ", " << mesh.points[15].position.y << ", " << mesh.points[15].position.z << std::endl;
+	std::cout << mesh.points[15].texcoord.x << ", " << mesh.points[15].texcoord.y << std::endl;
+	std::cout << mesh.points[15].normal.x << ", " << mesh.points[15].normal.y << ", " << mesh.points[15].normal.z << std::endl << std::endl;
 
 	return mesh;
 }
@@ -234,9 +244,35 @@ auto ObjParser::_FindIndex(const Mesh& mesh, const Vertex& vertex) -> unsigned s
 
 auto	ObjParser::_AddVertex(Mesh* mesh, Vertex v) -> void
 {
-	// check if it doesn't already exist then add it
-	// might generate a hash for it
+	long long hash = ObjParser::_GenerateVertexHash(v);
 
+	std::unordered_map<long long, const Vertex&>::const_iterator it = ObjParser::_hashTable.find(hash);
+
+	if (it != _hashTable.end())
+	{
+		mesh->indices.push_back(ObjParser::_FindIndex(*mesh, it->second));
+	}
+	else
+	{
+		_hashTable.emplace(hash, v);
+		mesh->points.push_back(v);
+		mesh->indices.push_back(ObjParser::_FindIndex(*mesh, v));
+	}
+}
+
+
+auto	ObjParser::_GenerateVertexHash(const Vertex& v) -> long long
+{
+	return (
+		v.position.x * 3000000 + 
+		v.position.y * -20000 +
+		v.position.z * 9 +
+		v.texcoord.x * -81 +
+		v.texcoord.y * 1050 +
+		v.normal.x * -16 +
+		v.normal.y * 150 +
+		v.normal.z * -4
+	);
 }
 
 

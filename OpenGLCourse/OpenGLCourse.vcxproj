@@ -128,6 +128,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\mat4.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\ObjModel.cpp" />
     <ClCompile Include="src\ObjParser.cpp" />
     <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Renderer.cpp" />

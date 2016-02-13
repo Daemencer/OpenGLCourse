@@ -4,9 +4,17 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <functional>
 
 namespace OpenGL {
 
+
+template <class T>
+inline void hash_combine(std::size_t & s, const T & v)
+{
+	std::hash<T> h;
+	s ^= h(v) + 0x9e3779b9 + (s << 6) + (s >> 2);
+}
 
 struct Vector2
 {
@@ -77,7 +85,30 @@ struct Mesh
 	std::vector<Vertex>	points;
 
 	std::vector<unsigned short>	indices;
+
 };
+
+//template <class T>
+//class MyHash;
+//
+//template<>
+//struct MyHash<Vertex>
+//{
+//	auto	operator () (const Vertex& v) const -> std::size_t
+//	{
+//		std::size_t res = 0;
+//		hash_combine(res, v.position.x);
+//		hash_combine(res, v.position.y);
+//		hash_combine(res, v.position.z);
+//		hash_combine(res, v.texcoord.x);
+//		hash_combine(res, v.texcoord.y);
+//		hash_combine(res, v.normal.x);
+//		hash_combine(res, v.normal.y);
+//		hash_combine(res, v.normal.z);
+//		return res;
+//	}
+//};
+
 
 class ObjParser
 {
@@ -93,8 +124,9 @@ private:
 	static	auto	_GetFaceData(std::string*) -> std::string;
 	static	auto	_FindIndex(const Mesh&, const Vertex&) -> unsigned short;
 	static	auto	_AddVertex(Mesh*, Vertex) -> void;
+	static	auto	_GenerateVertexHash(const Vertex&) -> long long;
 
-	static	std::unordered_map<double, unsigned short> _hashTable;
+	static	std::unordered_map<long long, const Vertex&> _hashTable;
 
 };
 

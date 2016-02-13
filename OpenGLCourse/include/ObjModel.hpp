@@ -12,12 +12,13 @@ class ObjModel :
 	public Model
 {
 public:
-	ObjModel() = delete;
-	ObjModel(const std::string&);
+	ObjModel() :
+		Model()
+	{ }
 	ObjModel(const ObjModel&) = default;
-	virtual ~ObjModel();
+	virtual ~ObjModel() = default;
 
-	override	auto	Initialize(const std::string&) -> void; // will set the const float* to the OBJ parsed. If the OBJ isn't yet parsed, parse it, else, get it from resource manager
+	auto	Initialize(const std::string&) -> void;
 
 	auto	operator = (const ObjModel&) -> ObjModel& = default;
 

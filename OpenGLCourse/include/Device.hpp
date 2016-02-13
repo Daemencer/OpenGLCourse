@@ -4,6 +4,7 @@
 #include "Singleton.hpp"
 #include "ShaderManager.hpp"
 #include "CubeModel.hpp"
+#include "ObjModel.hpp"
 
 namespace OpenGL {
 
@@ -20,7 +21,7 @@ public:
 
 	ShaderManager*	ShaderMgr;
 
-	Model*	model1;
+	ObjModel*	model;
 
 	GLuint GVAO;
 	GLuint GVBOpos;
