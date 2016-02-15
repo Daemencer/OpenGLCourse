@@ -25,7 +25,7 @@ struct Material {
 };
 
 struct Light {
-	Vector3 la; // ambient light color
+	GLfloat la; // ambient light color
 	Vector3 ld; // diffuse light color
 	Vector3 ls; // specular light color
 };
@@ -132,19 +132,19 @@ auto	Renderer::Render() -> void
 	//////////////////////////////////////////////
 	//				LIGHT TESTING				//
 
-	float lightDirection[] = { 
+	/*GLfloat lightPosition[] = { 
 		0.0f, 0.0f, 1.0f
 	};
 
-	auto lightDir = glGetUniformLocation(program, "u_directionalLight.direction");
-	glUniformMatrix4fv(lightDir, 1, GL_FALSE, lightDirection);
+	auto lightPos = glGetUniformLocation(program, "u_directionalLight.position");
+	glUniform3f(lightPos, lightPosition[0], lightPosition[1], lightPosition[2]);*/
 
-	float la[] = {
+	/*float la[] = {
 		1.0f, 0.f, 0.f
 	};
 
 	auto lightAmbient = glGetUniformLocation(program, "u_directionalLight.la");
-	glUniformMatrix4fv(lightAmbient, 1, GL_FALSE, la);
+	glUniformMatrix4fv(lightAmbient, 1, GL_FALSE, la);*/
 
 	//////////////////////////////////////////////
 
