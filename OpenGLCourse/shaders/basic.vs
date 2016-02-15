@@ -1,10 +1,8 @@
 #version 430
 
-//in vec4 a_color;
 /*layout (location=0)*/ in vec4 a_position;
 /*layout (location=1)*/ in vec2 a_texcoords;
 /*layout (location=2)*/ in vec3 a_normal;
-/*layout (location=3)*/ in vec4 a_color;
 
 //layout (location=0) uniform float u_time;
 //layout (location=1) uniform mat4 u_modelMatrix;
@@ -38,8 +36,6 @@ void main(void)
 	
 	OUT.v_normal = N;
 	OUT.v_texCoords = a_texcoords;
-	
-	vec4 Kd = a_color;
 	
 	OUT.v_fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
 	

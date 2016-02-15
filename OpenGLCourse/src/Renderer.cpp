@@ -15,6 +15,22 @@
 namespace OpenGL {
 
 
+// will be given and set from the obj in the future but for now, that's it
+struct Material {
+	Vector3 Ke; // emissive color of the surface
+	Vector3 Ka; // ambient color of the material
+	Vector3 Kd; // diffuse color of the material
+	Vector3 Ks; // specular color of the material
+	float shininess;
+};
+
+struct Light {
+	Vector3 la; // ambient light color
+	Vector3 ld; // diffuse light color
+	Vector3 ls; // specular light color
+};
+
+
 Renderer::Renderer(int ac, char* av[])
 {
 	Initialize(ac, av);
@@ -58,39 +74,6 @@ auto	Renderer::Update() -> void
 }
 
 
-auto updateCameraAspect() -> void
-{
-	float zfar = 1000.f;
-	float znear = 1.f;
-	float aspect = 1.3333f;
-
-	float xymax = znear * tan(60.0f * 3.14f / 360.f);
-	float ymin = -xymax;
-	float xmin = -xymax;
-
-	float width = xymax - xmin;
-	float height = xymax - ymin;
-	float depth = zfar - znear;
-	float q = -(zfar + znear) / depth;
-	float qn = -2.0f * (zfar * znear) / depth;
-
-	float w = 2.0f * znear / width;
-	w = w / aspect;
-	float h = 2.0f * znear / height;
-
-	GLfloat perspective[16] =
-	{
-		w,                  0.f,                    0.f,                    0.f,
-		0.f,                h,                      0.f,                    0.f,
-		0.f,                0.f,                    q,                        qn,
-		0.f,                0.f,                    -1.f,                    0.f
-	};
-
-	auto matrixPerspective = glGetUniformLocation(Device::GetInstance()->ShaderMgr->GetProgram("basic"), "project");
-	glUniformMatrix4fv(matrixPerspective, 1, GL_TRUE, perspective);
-}
-
-
 auto	Renderer::Render() -> void
 {
 	//glEnable(GL_SCISSOR_TEST);
@@ -104,6 +87,8 @@ auto	Renderer::Render() -> void
 
 	auto program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
+
+	//Device::GetInstance()->Draw(program);
 
 	static float time = 0.0f;
 	time += 1.0f / 60.0f;

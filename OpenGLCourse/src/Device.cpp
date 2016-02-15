@@ -170,7 +170,7 @@ auto	Device::Initialize() -> void
 	//cube = new CubeModel();
 	//cube->Initialize();
 
-	texId = Textures::CreateTexture("resources/textures/test.png", true);
+	texId = Textures::CreateTexture("resources/textures/KnifeD.png", true);
 
 	//CreateFramebuffer();
 

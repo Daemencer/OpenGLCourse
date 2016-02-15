@@ -25,7 +25,8 @@ auto	Textures::CreateTexture(const std::string& name, bool forceAlpha) -> GLuint
 					 , w
 					 , h
 					 , 0
-					 , forceAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE
+					 , forceAlpha ? GL_RGBA : GL_RGB
+					 , GL_UNSIGNED_BYTE
 					 , data);
 
 		// alternative to glTexImage2d
