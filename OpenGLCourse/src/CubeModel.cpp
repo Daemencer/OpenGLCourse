@@ -127,10 +127,16 @@ auto	CubeModel::Initialize() -> void
 	};
 
 	_positions.insert(_positions.begin(), pos, pos + 24 * 3);
+	_posisitionCount = _positions.size();
+
 	_texcoords.insert(_texcoords.begin(), texcoords, texcoords + 24 * 2);
+	_texcoordCount = _texcoords.size();
+
 	_normals.insert(_normals.begin(), normals, normals + 24 * 3);
+	_normalCount = _normals.size();
 
 	_indices.insert(_indices.begin(), indices, indices + 12 * 3);
+	_indexCount = _indices.size();
 
 	Model::Initialize();
 }

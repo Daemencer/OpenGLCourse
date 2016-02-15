@@ -22,6 +22,7 @@ public:
 	ShaderManager*	ShaderMgr;
 
 	ObjModel*	model;
+	//CubeModel*	cube;
 
 	GLuint GVAO;
 	GLuint GVBOpos;

@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CubeModel.cpp" />
     <ClCompile Include="src\Device.cpp" />
     <ClCompile Include="src\GLShader.cpp" />
@@ -136,11 +137,13 @@
     <ClCompile Include="src\Textures.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Camera.hpp" />
     <ClInclude Include="include\CubeModel.hpp" />
     <ClInclude Include="include\Device.hpp" />
     <ClInclude Include="include\GLShader.hpp" />
     <ClInclude Include="include\mat4.hpp" />
     <ClInclude Include="include\Model.hpp" />
+    <ClInclude Include="include\objload.h" />
     <ClInclude Include="include\ObjModel.hpp" />
     <ClInclude Include="include\ObjParser.hpp" />
     <ClInclude Include="include\Parser.hpp" />
@@ -148,6 +151,7 @@
     <ClInclude Include="include\ShaderManager.hpp" />
     <ClInclude Include="include\Singleton.hpp" />
     <ClInclude Include="include\Textures.hpp" />
+    <ClInclude Include="include\Transform.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -28,13 +28,6 @@ out VS_OUTPUT
 	vec2 v_texCoords;
 } OUT;
 
-//struct Light
-//{
-//	vec3	direction;
-//	vec3 	la;
-//};
-//uniform Light	u_directionalLight;
-
 void main(void)
 {
 	//mix(U, V, factor);
@@ -47,7 +40,8 @@ void main(void)
 	OUT.v_texCoords = a_texcoords;
 	
 	vec4 Kd = a_color;
-	OUT.v_fragmentColor = max(dot(N, L), 0.0) * Kd;
+	
+	OUT.v_fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
 	
 	gl_Position = project * view * model * a_position;
 }

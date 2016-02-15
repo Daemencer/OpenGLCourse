@@ -165,7 +165,10 @@ auto	Device::Initialize() -> void
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
 	model = new ObjModel();
-	model->Initialize("resources/models/test.obj");
+	model->Initialize("resources/models/cube.obj");
+
+	//cube = new CubeModel();
+	//cube->Initialize();
 
 	texId = Textures::CreateTexture("resources/textures/test.png", true);
 
@@ -188,6 +191,7 @@ auto	Device::Shutdown() -> void
 
 	delete ShaderMgr;
 	delete model;
+	//delete cube;
 }
 
 

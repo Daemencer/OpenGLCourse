@@ -10,6 +10,7 @@
 #include "GLShader.hpp"
 
 #include "Device.hpp" // singleton holding everything
+#include "Camera.hpp"
 
 namespace OpenGL {
 
@@ -57,6 +58,39 @@ auto	Renderer::Update() -> void
 }
 
 
+auto updateCameraAspect() -> void
+{
+	float zfar = 1000.f;
+	float znear = 1.f;
+	float aspect = 1.3333f;
+
+	float xymax = znear * tan(60.0f * 3.14f / 360.f);
+	float ymin = -xymax;
+	float xmin = -xymax;
+
+	float width = xymax - xmin;
+	float height = xymax - ymin;
+	float depth = zfar - znear;
+	float q = -(zfar + znear) / depth;
+	float qn = -2.0f * (zfar * znear) / depth;
+
+	float w = 2.0f * znear / width;
+	w = w / aspect;
+	float h = 2.0f * znear / height;
+
+	GLfloat perspective[16] =
+	{
+		w,                  0.f,                    0.f,                    0.f,
+		0.f,                h,                      0.f,                    0.f,
+		0.f,                0.f,                    q,                        qn,
+		0.f,                0.f,                    -1.f,                    0.f
+	};
+
+	auto matrixPerspective = glGetUniformLocation(Device::GetInstance()->ShaderMgr->GetProgram("basic"), "project");
+	glUniformMatrix4fv(matrixPerspective, 1, GL_TRUE, perspective);
+}
+
+
 auto	Renderer::Render() -> void
 {
 	//glEnable(GL_SCISSOR_TEST);
@@ -65,9 +99,8 @@ auto	Renderer::Render() -> void
 	//glEnable(GL_BLEND);
 	//glBlendEquation(GL_FUNC_ADD);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-
+	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_LIGHTING);
 
 	auto program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
@@ -75,11 +108,9 @@ auto	Renderer::Render() -> void
 	static float time = 0.0f;
 	time += 1.0f / 60.0f;
 
-	float scale = 200.f;
-
 	float rotationMatrix[16] = {
-		scale*cos(time),	scale*sin(time),			0.f,				0.f,
-		scale*-sin(time),	scale*cos(time),			0.f,				0.f,
+		cos(time),			sin(time),					0.f,				0.f,
+		-sin(time),			cos(time),					0.f,				0.f,
 		0.f,				0.f,						1.f,				0.f,
 		0.f,				0.f,						0.f,				1.f
 	};
@@ -88,22 +119,17 @@ auto	Renderer::Render() -> void
 		1.f, 0.f, 0.f, 0.f,
 		0.f, 1.f, 0.f, 0.f,
 		0.f, 0.f, 1.f, 0.f,
-		200.f, 0.f, -1.f, 1.f
+		1.f, 0.f, -2.f, 1.f
 	};
 
-	float l = -400.f;
-	float r = 400.f;
-	float b = -300.f;
-	float t = 300.f;
-	float n = 1.f;
-	float f = 10.f;
+	float project[16] = { 0.f };
 
-	float project[] = {
-		(2.f*n) / (r - l), 0.f, (r + l) / (r - l), 0.f,
-		0.f, (2.f*n) / (t - b), (t + b) / (t - b), 0.f,
-		0.f, 0.f, -(f + n) / (f - n), (-2.f*f*n) / (f - n),
-		0.f, 0.f, -1.f, 0.f
-	};
+	float fov = 60.f;
+	float aspect = 4.f / 3.f;
+	float znear = 1.f;
+	float zfar = 1000.f;
+
+	Camera::GetPerspectiveMatrix(project, fov, aspect, znear, zfar);
 
 	auto matrixLocation1 = glGetUniformLocation(program, "model");
 	glUniformMatrix4fv(matrixLocation1, 1, GL_FALSE, rotationMatrix);
@@ -112,9 +138,30 @@ auto	Renderer::Render() -> void
 	glUniformMatrix4fv(matrixLocation3, 1, GL_FALSE, viewMatrix);
 
 	auto matrixLocation2 = glGetUniformLocation(program, "project");
-	glUniformMatrix4fv(matrixLocation2, 1, GL_FALSE, project);
+	glUniformMatrix4fv(matrixLocation2, 1, GL_TRUE, project);
+
+	//updateCameraAspect();
 
 	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
+
+	//////////////////////////////////////////////
+	//				LIGHT TESTING				//
+
+	float lightDirection[] = { 
+		0.0f, 0.0f, 1.0f
+	};
+
+	auto lightDir = glGetUniformLocation(program, "u_directionalLight.direction");
+	glUniformMatrix4fv(lightDir, 1, GL_FALSE, lightDirection);
+
+	float la[] = {
+		1.0f, 0.f, 0.f
+	};
+
+	auto lightAmbient = glGetUniformLocation(program, "u_directionalLight.la");
+	glUniformMatrix4fv(lightAmbient, 1, GL_FALSE, la);
+
+	//////////////////////////////////////////////
 
 	// framebuffer drawing
 	/*glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -127,8 +174,11 @@ auto	Renderer::Render() -> void
 	// draw scene
 	//std::cout << Device::GetInstance()->model1->GetModelVAO() << std::endl;
 	glBindVertexArray(Device::GetInstance()->model->GetModelVAO());
+	//glBindVertexArray(Device::GetInstance()->cube->GetModelVAO());
+
 	//printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
 	glDrawElements(GL_TRIANGLES, Device::GetInstance()->model->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
+	//glDrawElements(GL_TRIANGLES, Device::GetInstance()->cube->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 
 	// second pass, back to default framebuffer
