@@ -9,6 +9,8 @@
 namespace OpenGL {
 
 
+class Scene;
+
 class Device :
 	public Singleton<Device>
 {
@@ -18,6 +20,9 @@ public:
 
 	auto	Initialize() -> void;
 	auto	Shutdown() -> void;
+
+	auto	Update() -> void;
+	auto	Draw() -> void;
 
 	ShaderManager*	ShaderMgr;
 
@@ -32,10 +37,13 @@ public:
 
 	GLuint FBO;
 
-	GLuint texId;
+	GLuint texId; // keep the texId here until I manage textures properly
 	GLuint quadTextureId;
 
 	void	GenerateQuadVAO();
+
+private:
+	Scene*	_scene;
 
 };
 

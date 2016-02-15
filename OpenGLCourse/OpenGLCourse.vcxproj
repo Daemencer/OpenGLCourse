@@ -133,8 +133,10 @@
     <ClCompile Include="src\ObjParser.cpp" />
     <ClCompile Include="src\Parser.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\Textures.cpp" />
+    <ClCompile Include="src\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.hpp" />
@@ -143,11 +145,13 @@
     <ClInclude Include="include\GLShader.hpp" />
     <ClInclude Include="include\mat4.hpp" />
     <ClInclude Include="include\Model.hpp" />
+    <ClInclude Include="include\Node.hpp" />
     <ClInclude Include="include\objload.h" />
     <ClInclude Include="include\ObjModel.hpp" />
     <ClInclude Include="include\ObjParser.hpp" />
     <ClInclude Include="include\Parser.hpp" />
     <ClInclude Include="include\Renderer.hpp" />
+    <ClInclude Include="include\Scene.hpp" />
     <ClInclude Include="include\ShaderManager.hpp" />
     <ClInclude Include="include\Singleton.hpp" />
     <ClInclude Include="include\Textures.hpp" />

@@ -119,7 +119,7 @@ auto	Renderer::Render() -> void
 		1.f, 0.f, 0.f, 0.f,
 		0.f, 1.f, 0.f, 0.f,
 		0.f, 0.f, 1.f, 0.f,
-		1.f, 0.f, -2.f, 1.f
+		1.f, 0.f, -7.f, 1.f
 	};
 
 	float project[16] = { 0.f };

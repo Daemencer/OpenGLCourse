@@ -1,7 +1,7 @@
 #include "mat4.hpp"
 
-#include <cstdio>
 #include <cmath>
+#include <iostream>
 
 namespace OpenGL {
 
@@ -115,17 +115,25 @@ auto	mat4::mult(const mat4& l, const mat4& r) -> mat4
 
 auto	mat4::print(const mat4& mat) -> void
 {
-	printf("Matrice: [\n");
-	printf("%d\, %d\, %d\, %d\n", mat.data[0], mat.data[1], mat.data[2], mat.data[3]);
-	printf("%d\, %d\, %d\, %d\n", mat.data[4], mat.data[5], mat.data[6], mat.data[7]);
-	printf("%d\, %d\, %d\, %d\n", mat.data[8], mat.data[9], mat.data[10], mat.data[11]);
-	printf("%d\, %d\, %d\, %d", mat.data[12], mat.data[13], mat.data[14], mat.data[15]);
-	printf("]\n");
+	std::cout << "Matrix: [" << std::endl;
+	std::cout << mat.data[0] << ", " << mat.data[1] << ", " << mat.data[2] << ", " << mat.data[3] << ", " << std::endl;
+	std::cout << mat.data[4] << ", " << mat.data[5] << ", " << mat.data[6] << ", " << mat.data[7] << ", " << std::endl;
+	std::cout << mat.data[8] << ", " << mat.data[9] << ", " << mat.data[10] << ", " << mat.data[11] << ", " << std::endl;
+	std::cout << mat.data[12] << ", " << mat.data[13] << ", " << mat.data[14] << ", " << mat.data[15] << " ]" << std::endl;
 }
 
 auto	mat4::operator [] (int i) -> float&
 {
 	return data[i];
+}
+
+
+auto	mat4::operator * (const mat4& rhs) const -> mat4&
+{
+	mat4	m;
+	for (int i = 0; i < 16; ++i)
+		m.data[i] = this->data[i] * rhs.data[i];
+	return m;
 }
 
 

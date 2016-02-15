@@ -8,8 +8,8 @@
 #include "Freeglut.h"
 
 #include "GLShader.hpp"
-
 #include "Textures.hpp"
+#include "Scene.hpp"
 
 namespace OpenGL {
 
@@ -165,7 +165,7 @@ auto	Device::Initialize() -> void
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
 	model = new ObjModel();
-	model->Initialize("resources/models/cube.obj");
+	model->Initialize("resources/models/Knife.obj");
 
 	//cube = new CubeModel();
 	//cube->Initialize();
@@ -192,6 +192,18 @@ auto	Device::Shutdown() -> void
 	delete ShaderMgr;
 	delete model;
 	//delete cube;
+}
+
+
+auto	Device::Update() -> void
+{
+	_scene->Update();
+}
+
+
+auto	Device::Draw() -> void
+{
+	_scene->Draw();
 }
 
 

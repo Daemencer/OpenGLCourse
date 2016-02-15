@@ -43,6 +43,8 @@ struct mat4
 	// operators
 
 	auto	operator [] (int) -> float&;
+	
+	auto	operator * (const mat4&) const -> mat4&;
 
 };
 

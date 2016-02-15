@@ -3,10 +3,13 @@
 
 #define PI_OVER_360 (3.14159265359 / 360)
 
+#include "Node.hpp"
+
 namespace OpenGL {
 
 
-class Camera
+class Camera :
+	public Node
 {
 public:
 	Camera() = default;
