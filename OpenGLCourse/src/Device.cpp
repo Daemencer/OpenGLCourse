@@ -179,6 +179,8 @@ auto	Device::Initialize() -> void
 
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
+	_scene = new Scene("Main Scene");
+
 	model = new ObjModel();
 	model->Initialize("resources/models/Trex.obj");
 
