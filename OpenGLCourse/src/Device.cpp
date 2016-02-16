@@ -181,6 +181,10 @@ auto	Device::Initialize() -> void
 
 	_scene = new Scene("Main Scene");
 
+	// add things to the scene
+
+	//////////////////////////
+
 	model = new ObjModel();
 	model->Initialize("resources/models/Trex.obj");
 
