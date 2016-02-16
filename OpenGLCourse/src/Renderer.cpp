@@ -177,7 +177,6 @@ auto	Renderer::Render() -> void
 
 	glBindBufferBase(GL_UNIFORM_BUFFER, 1, camUBO);
 
-
 	GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
 	glUniform3f(viewPosLoc, 0.0f, 0.0f, 1.0f);
 

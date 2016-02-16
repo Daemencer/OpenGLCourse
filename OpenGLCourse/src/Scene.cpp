@@ -60,7 +60,7 @@ auto	Scene::Initialize(const std::string& name) -> void
 	{
 		_name = name;
 
-		_root = new Node("Root");
+		_root = new Node(nullptr, "Root");
 
 		_activeCameras.clear();
 

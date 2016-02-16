@@ -14,7 +14,8 @@ public:
 	Transform() = default;
 	~Transform() = default;
 
-	auto	GetTransform() -> mat4; // combines all 3 matrix to get the transform matrix of the object
+	auto	GetTransform() -> mat4;
+	auto	GetTransform() const -> const mat4&; // combines all 3 matrix to get the transform matrix of the object
 
 	// translation operations
 	auto	Translate(float tx, float ty, float tz) -> void;

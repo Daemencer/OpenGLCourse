@@ -1,9 +1,11 @@
 #include "Transform.hpp"
 
 namespace OpenGL {
-
-
-auto	Transform::GetTransform() -> mat4
+auto Transform::GetTransform() -> mat4
+{
+	return _scaleMatrix * _rotateMatrix * _translateMatrix;
+}
+auto	Transform::GetTransform() const -> const mat4&
 {
 	return  _scaleMatrix * _rotateMatrix * _translateMatrix;
 }
