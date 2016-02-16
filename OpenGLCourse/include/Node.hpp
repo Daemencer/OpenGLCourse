@@ -17,7 +17,7 @@ class Scene;
 class Node
 {
 public:
-	Node();
+	Node(const std::string& = "Default Node");
 	virtual ~Node();
 
 	auto	Initialize() -> void;
@@ -34,6 +34,9 @@ public:
 	auto	Rotate(Vector3, Vector3) -> void;
 	auto	Scale(float x, float y, float z) -> void;
 	auto	Scale(Vector3) -> void;
+
+	inline	auto	GetName() const -> std::string				{ return _name; }
+	inline	auto	SetName(const std::string& name) -> void	{ _name = name; }
 
 	auto	GetScene() const -> Scene*;
 

@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\Node.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CubeModel.cpp" />
     <ClCompile Include="src\Device.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\mat4.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\ObjModel.cpp" />
     <ClCompile Include="src\ObjParser.cpp" />
     <ClCompile Include="src\Parser.cpp" />

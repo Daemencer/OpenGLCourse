@@ -153,6 +153,21 @@ void	Device::GenerateQuadVAO()
 }
 
 
+auto	Device::GetScene() const -> Scene*
+{
+	return _scene;
+}
+
+
+auto	Device::SetScene(Scene* scene) -> void
+{
+	if (_scene)
+		delete _scene;
+
+	_scene = scene;
+}
+
+
 auto	Device::Initialize() -> void
 {
 	printf("Version OpenGL : %s\n", glGetString(GL_VERSION));
@@ -165,12 +180,12 @@ auto	Device::Initialize() -> void
 	ShaderMgr->AddNewProgram("basic", "basic.vs", "basic.fs");
 
 	model = new ObjModel();
-	model->Initialize("resources/models/Knife.obj");
+	model->Initialize("resources/models/Trex.obj");
 
 	//cube = new CubeModel();
 	//cube->Initialize();
 
-	texId = Textures::CreateTexture("resources/textures/KnifeD.png", true);
+	texId = Textures::CreateTexture("resources/textures/Trex.png", true);
 
 	//CreateFramebuffer();
 

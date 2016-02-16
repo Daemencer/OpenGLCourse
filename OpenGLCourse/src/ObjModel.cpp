@@ -36,6 +36,12 @@ auto	ObjModel::Initialize(const std::string& modelPath) -> void
 	_positions.insert(_positions.begin(), obj.vertex.data(), obj.vertex.data() + obj.vertex.size());
 	_posisitionCount = _positions.size();
 
+	for (int i = 0; i < obj.texCoord.size(); ++i)
+	{
+		if (i % 2 == 1)
+			obj.texCoord[i] = -obj.texCoord[i];
+	}
+
 	_texcoords.insert(_texcoords.begin(), obj.texCoord.data(), obj.texCoord.data() + obj.texCoord.size());
 	_texcoordCount = _texcoords.size();
 

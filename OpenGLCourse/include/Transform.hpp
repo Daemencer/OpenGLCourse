@@ -3,6 +3,8 @@
 
 #include "mat4.hpp"
 
+#include "ObjParser.hpp" // TODO move the Vector struct from ObjParser to utils
+
 namespace OpenGL {
 
 
@@ -14,9 +16,17 @@ public:
 
 	auto	GetTransform() -> mat4; // combines all 3 matrix to get the transform matrix of the object
 
-	//auto	Translate() -> void;
-	//auto	Rotate() -> void;
-	//auto	Scale() -> void;
+	// translation operations
+	auto	Translate(float tx, float ty, float tz) -> void;
+	auto	Translate(Vector3 t) -> void;
+
+	// rotation operations
+	auto	Rotate(const Vector3& axis, float angle) -> void;
+	auto	Rotate(float rx, float ry, float rz, float angle) -> void;
+
+	// scale operations
+	auto	Scale(float sx, float sy, float sz) -> void;
+	auto	Scale(Vector3 s) -> void;
 
 private:
 	mat4	_translateMatrix;

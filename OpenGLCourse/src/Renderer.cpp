@@ -79,11 +79,11 @@ auto	Renderer::Render() -> void
 	//glEnable(GL_SCISSOR_TEST);
 	//glScissor(0, 0, 640, 480);
 	glEnable(GL_CULL_FACE);
-	//glEnable(GL_BLEND);
-	//glBlendEquation(GL_FUNC_ADD);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_LIGHTING);
+	glEnable(GL_BLEND);
+	glBlendEquation(GL_FUNC_ADD);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 
 	auto program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
 	glUseProgram(program);
@@ -93,41 +93,93 @@ auto	Renderer::Render() -> void
 	static float time = 0.0f;
 	time += 1.0f / 60.0f;
 
-	float rotationMatrix[16] = {
-		cos(time),			sin(time),					0.f,				0.f,
-		-sin(time),			cos(time),					0.f,				0.f,
-		0.f,				0.f,						1.f,				0.f,
-		0.f,				0.f,						0.f,				1.f
-	};
+	//////////////////////////////////////////////////////////////////////////////
+	//								model matrices								//
+	struct ModelMatrices {
+		// translate matrix
+		float translateMatrix[16] = {
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
 
-	float viewMatrix[16] = {
-		1.f, 0.f, 0.f, 0.f,
-		0.f, 1.f, 0.f, 0.f,
-		0.f, 0.f, 1.f, 0.f,
-		1.f, 0.f, -7.f, 1.f
-	};
+		// x rotation
+		/*float rotationMatrix[16] = {
+			1.0f,				0.0f,						0.0f,				0.f,
+			0.0f,				cos(time),					-sin(time),			0.f,
+			0.0f,				sin(time),					cos(time),			0.f,
+			0.f,				0.f,						0.f,				1.f
+		};*/
 
-	float project[16] = { 0.f };
+		// y rotation
+		float rotationMatrix[16] = {
+			cos(time),			0.0f,						sin(time),			0.f,
+			0.0f,				1.0f,						0.f,				0.f,
+			-sin(time),			0.f,						cos(time),			0.f,
+			0.f,				0.f,						0.f,				1.f
+		};
 
-	float fov = 60.f;
-	float aspect = 4.f / 3.f;
-	float znear = 1.f;
-	float zfar = 1000.f;
+		// scale matrix
+		float scaleMatrix[16] = {
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
+	} modelMatrices;
+	//////////////////////////////////////////////////////////////////////////////
 
-	Camera::GetPerspectiveMatrix(project, fov, aspect, znear, zfar);
+	struct CameraMatrices {
+		CameraMatrices() {
+			float fov = 60.f;
+			float aspect = 4.f / 3.f;
+			float znear = 1.f;
+			float zfar = 1000.f;
 
-	auto matrixLocation1 = glGetUniformLocation(program, "model");
-	glUniformMatrix4fv(matrixLocation1, 1, GL_FALSE, rotationMatrix);
+			Camera::GetPerspectiveMatrix(project, fov, aspect, znear, zfar);
+		}
 
-	auto matrixLocation3 = glGetUniformLocation(program, "view");
+		float viewMatrix[16] = {
+			1.f, 0.f, 0.f, 0.f,
+			0.f, 1.f, 0.f, 0.f,
+			0.f, 0.f, 1.f, 0.f,
+			1.f, -4.f, -12.f, 1.f
+		};
+
+		float project[16];
+	}cameraMatrices;
+
+	/*auto matrixLocation1 = glGetUniformLocation(program, "model");
+	glUniformMatrix4fv(matrixLocation1, 1, GL_FALSE, rotationMatrix);*/
+
+	/*auto matrixLocation3 = glGetUniformLocation(program, "view");
 	glUniformMatrix4fv(matrixLocation3, 1, GL_FALSE, viewMatrix);
 
 	auto matrixLocation2 = glGetUniformLocation(program, "project");
-	glUniformMatrix4fv(matrixLocation2, 1, GL_TRUE, project);
-
-	//updateCameraAspect();
+	glUniformMatrix4fv(matrixLocation2, 1, GL_TRUE, project);*/
 
 	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
+
+	GLuint modelUBO = 0u;
+	glGenBuffers(1, &modelUBO);
+	glBindBuffer(GL_UNIFORM_BUFFER, modelUBO);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(modelMatrices), &modelMatrices, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, modelUBO);
+
+	GLuint camUBO = 0u;
+	glGenBuffers(1, &camUBO);
+	glBindBuffer(GL_UNIFORM_BUFFER, camUBO);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(cameraMatrices), &cameraMatrices, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+	glBindBufferBase(GL_UNIFORM_BUFFER, 1, camUBO);
+
+
+	GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
+	glUniform3f(viewPosLoc, 0.0f, 0.0f, 1.0f);
 
 	//////////////////////////////////////////////
 	//				LIGHT TESTING				//
@@ -135,6 +187,8 @@ auto	Renderer::Render() -> void
 	/*GLfloat lightPosition[] = { 
 		0.0f, 0.0f, 1.0f
 	};
+
+	// uniform buffer object
 
 	auto lightPos = glGetUniformLocation(program, "u_directionalLight.position");
 	glUniform3f(lightPos, lightPosition[0], lightPosition[1], lightPosition[2]);*/

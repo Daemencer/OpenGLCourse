@@ -3,6 +3,8 @@
 
 #include <initializer_list>
 
+#include "ObjParser.hpp"
+
 namespace OpenGL {
 
 
@@ -44,7 +46,7 @@ struct mat4
 
 	auto	operator [] (int) -> float&;
 	
-	auto	operator * (const mat4&) const -> mat4&;
+	auto	operator * (const mat4&) const -> mat4;
 
 };
 

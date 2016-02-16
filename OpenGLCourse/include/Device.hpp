@@ -42,6 +42,9 @@ public:
 
 	void	GenerateQuadVAO();
 
+	auto	GetScene() const -> Scene*;
+	auto	SetScene(Scene*) -> void;
+
 private:
 	Scene*	_scene;
 

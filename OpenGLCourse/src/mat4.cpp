@@ -128,7 +128,7 @@ auto	mat4::operator [] (int i) -> float&
 }
 
 
-auto	mat4::operator * (const mat4& rhs) const -> mat4&
+auto	mat4::operator * (const mat4& rhs) const -> mat4
 {
 	mat4	m;
 	for (int i = 0; i < 16; ++i)

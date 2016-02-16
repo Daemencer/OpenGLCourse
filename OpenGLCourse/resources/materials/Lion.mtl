@@ -1,0 +1,35 @@
+# Blender3D MTL File: 
+# Material Count: 3
+newmtl Material_RE_O_zombi___RE_O_zombi_Lion.png
+Ns 90.196078
+Ka 0.000000 0.000000 0.000000
+Kd 0.409600 0.409600 0.409600
+Ks 0.125000 0.125000 0.125000
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd RE O zombi Lion.png
+
+
+newmtl Material_RE_O_zom_RE_O_zombi_Lion.png
+Ns 86.274510
+Ka 0.000000 0.000000 0.000000
+Kd 0.327680 0.327680 0.327680
+Ks 0.062500 0.062500 0.062500
+Ni 1.000000
+d 0.000000
+illum 2
+map_Kd RE O zombi Lion.png
+
+
+newmtl Material_RE_O_zom_RE__RE_O_zombi_Lion_2.png
+Ns 90.196078
+Ka 0.000000 0.000000 0.000000
+Kd 0.409600 0.409600 0.409600
+Ks 0.125000 0.125000 0.125000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd RE O zombi Lion_2.png
+
+
