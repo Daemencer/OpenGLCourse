@@ -2,6 +2,7 @@
 
 #include "Node.hpp"
 #include "Camera.hpp"
+#include "GLShader.hpp"
 
 namespace OpenGL {
 
@@ -26,14 +27,20 @@ auto	Scene::Update() -> void
 }
 
 
-auto	Scene::Draw() -> void
+auto	Scene::Draw(GLuint program) const -> void
 {
-	// draw the scene once for each registered camera setting all its data
-	for (auto&& cam : _activeCameras)
+	for (std::vector<Camera*>::const_iterator it = _activeCameras.begin(); it != _activeCameras.end(); ++it)
 	{
-		// set the camera state and matrices
+		auto viewMatrixLoc = glGetUniformLocation(program, "u_viewMatrix");
+		glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &(*it)->GetLocalTransform().data[0]);
 
-		_root->Draw();
+		auto projectMatrixLoc = glGetUniformLocation(program, "u_projectMatrix");
+		glUniformMatrix4fv(projectMatrixLoc, 1, GL_TRUE, (*it)->GetPerspectiveMatrix());
+
+		GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
+		glUniform3f(viewPosLoc, 0.0f, 0.0f, 1.0f);
+
+		_root->Draw(program);
 	}
 }
 
@@ -61,8 +68,7 @@ auto	Scene::Initialize(const std::string& name) -> void
 		_name = name;
 
 		_root = new Node(nullptr, "Root");
-
-		_activeCameras.clear();
+		_root->SetScene(this);
 
 		_initialized = true;
 	}

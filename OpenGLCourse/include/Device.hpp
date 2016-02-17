@@ -1,6 +1,8 @@
 #ifndef __DEVICE_HPP__
 #define __DEVICE_HPP__
 
+#include "glew.h"
+
 #include "Singleton.hpp"
 #include "ShaderManager.hpp"
 #include "CubeModel.hpp"
@@ -10,6 +12,7 @@ namespace OpenGL {
 
 
 class Scene;
+class GLShader;
 
 class Device :
 	public Singleton<Device>
@@ -22,30 +25,32 @@ public:
 	auto	Shutdown() -> void;
 
 	auto	Update() -> void;
-	auto	Draw() -> void;
+	auto	Draw() const -> void;
 
-	ShaderManager*	ShaderMgr;
-
-	ObjModel*	model;
+	//ObjModel*	model;
 	//CubeModel*	cube;
 
-	GLuint GVAO;
+	/*GLuint GVAO;
 	GLuint GVBOpos;
 	GLuint GVBOcolor;
 	GLuint GVBOtexCoords;
 	GLuint GIBO;
 
-	GLuint FBO;
+	GLuint FBO;*/
 
 	GLuint texId; // keep the texId here until I manage textures properly
-	GLuint quadTextureId;
+	//GLuint quadTextureId;
 
-	void	GenerateQuadVAO();
+	//void	GenerateQuadVAO();
+
+	inline	auto	GetShaderMgr() const -> ShaderManager* { return _shaderMgr; }
 
 	auto	GetScene() const -> Scene*;
 	auto	SetScene(Scene*) -> void;
 
 private:
+	ShaderManager*	_shaderMgr = nullptr;
+
 	Scene*	_scene;
 
 };

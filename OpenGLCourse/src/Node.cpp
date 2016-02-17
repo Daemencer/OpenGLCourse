@@ -1,5 +1,9 @@
 #include "Node.hpp"
 
+#include "GLShader.hpp"
+#include "Model.hpp"
+#include "ObjModel.hpp"
+
 namespace OpenGL {
 
 
@@ -21,12 +25,7 @@ auto	Node::Initialize(Node* parent, const std::string& name) -> void
 		_name = name;
 
 		if (parent)
-		{
-			_parent = parent;
-
-			if (_parent->_scene)
-				_scene = parent->_scene;
-		}
+			parent->AddChild(this);
 		else
 		{
 			_parent = nullptr;
@@ -59,14 +58,31 @@ auto	Node::Shutdown() -> void
 
 auto	Node::Update() -> void
 {
+	// updates the components
+	static float time = 0.0f;
+	time += 1.0f / 60.0f;
+
+	//Rotate(Vector3(0.0f, 1.0f, 0.0f), time);
+
 	for (auto& child : _children)
 		child->Update();
 }
 
 
-auto	Node::Draw() -> void
+auto	Node::Draw(GLuint program) const -> void
 {
-	// set the matrices and draw its models
+	auto worldMatrixLoc = glGetUniformLocation(program, "u_worldMatrix");
+	glUniformMatrix4fv(worldMatrixLoc, 1, GL_FALSE, &_transform.GetTransform().data[0]);
+
+	for (auto& model : _models)
+	{
+		glBindVertexArray(model->GetModelVAO());
+		glDrawElements(GL_TRIANGLES, model->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
+		glBindVertexArray(0);
+	}
+
+	for (auto& child : _children)
+		child->Draw(program);
 }
 
 
@@ -105,8 +121,16 @@ auto	Node::Scale(const Vector3& sv) -> void
 }
 
 
-auto	Node::AddChild(Node *) -> void
+auto	Node::AddChild(Node* child) -> void
 {
+	_children.push_back(child);
+
+	child->_parent = this;
+
+	if (_scene)
+		child->_scene = this->_scene;
+	else
+		child->_scene = nullptr;
 }
 
 

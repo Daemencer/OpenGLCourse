@@ -1,6 +1,7 @@
 #ifndef __NODE_HPP__
 #define __NODE_HPP__
 
+#include "glew.h"
 #include <vector>
 #include <string>
 
@@ -16,6 +17,9 @@ class Scene;
 
 class Node
 {
+
+friend class Scene;
+
 public:
 	Node(Node* parent = nullptr, const std::string& = "Default Node");
 	virtual ~Node();
@@ -24,7 +28,7 @@ public:
 	auto	Shutdown() -> void;
 
 	auto	Update() -> void;
-	auto	Draw() -> void;
+	auto	Draw(GLuint) const -> void;
 
 	auto	Translate(float tx, float ty, float tz) -> void;
 	auto	Translate(const Vector3& tv) -> void;
@@ -52,6 +56,8 @@ public:
 	auto	AddModel(Model*) -> void;
 
 private:
+	auto	SetScene(Scene* scene) -> void { if (scene) _scene = scene; }
+
 	bool			_initialized = false;
 
 	std::string		_name;

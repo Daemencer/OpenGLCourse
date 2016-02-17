@@ -1,6 +1,7 @@
 #ifndef __SCENE_HPP__
 #define __SCENE_HPP__
 
+#include "glew.h"
 #include <vector>
 #include <string>
 
@@ -12,15 +13,18 @@ class Camera;
 
 class Scene
 {
+
 public:
 	Scene(const std::string& = "Default Scene");
 	virtual ~Scene();
 
 	auto	Update() -> void;
-	auto	Draw() -> void;
+	auto	Draw(GLuint) const -> void;
 
 	auto	RegisterCamera(Camera*) -> void;
 	auto	RemoveCamera(Camera*) -> void;
+
+	inline	auto	GetRoot() const -> Node* { return _root; }
 
 protected:
 	auto	Initialize(const std::string&) -> void;
@@ -29,7 +33,7 @@ protected:
 private:
 	std::string		_name;
 
-	Node*	_root = nullptr;
+	Node*			_root = nullptr;
 
 	std::vector<Camera*> _activeCameras;
 

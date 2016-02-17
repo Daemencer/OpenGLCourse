@@ -16,12 +16,13 @@ Model::~Model()
 
 auto	Model::Initialize() -> void
 {
-	GLuint program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
+	GLuint program = Device::GetInstance()->GetShaderMgr()->GetProgram("basic");
 	glUseProgram(program);
 
 	auto positionLoc = glGetAttribLocation(program, "a_position");
 	auto texcoordsLoc = glGetAttribLocation(program, "a_texcoords");
 	auto normalLoc = glGetAttribLocation(program, "a_normal");
+	//glBindAttribLocation(program, 2, "a_normal");
 
 	glGenBuffers(1, &_VBOpos);
 	glGenBuffers(1, &_VBOtexcoords);
@@ -61,6 +62,7 @@ auto	Model::Initialize() -> void
 	glVertexAttribPointer(texcoordsLoc, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), 0);
 	glBindBuffer(GL_ARRAY_BUFFER, _VBOnormals);
 	glVertexAttribPointer(normalLoc, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
+	//glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), 0);
 
 	glEnableVertexAttribArray(positionLoc);
 	glEnableVertexAttribArray(texcoordsLoc);

@@ -70,6 +70,8 @@ auto	Renderer::Run() -> void
 
 auto	Renderer::Update() -> void
 {
+	Device::GetInstance()->Update();
+
 	glutPostRedisplay();
 }
 
@@ -85,52 +87,55 @@ auto	Renderer::Render() -> void
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 
-	auto program = Device::GetInstance()->ShaderMgr->GetProgram("basic");
-	glUseProgram(program);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//Device::GetInstance()->Draw(program);
+	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
 
-	static float time = 0.0f;
-	time += 1.0f / 60.0f;
+	Device::GetInstance()->Draw();
+
+	// will be moved in the update of the concerned node
+	/*static float time = 0.0f;
+	time += 1.0f / 60.0f;*/
 
 	//////////////////////////////////////////////////////////////////////////////
 	//								model matrices								//
-	struct ModelMatrices {
-		// translate matrix
-		float translateMatrix[16] = {
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
-		};
+	//struct ModelMatrices {
+	//	// translate matrix
+	//	float translateMatrix[16] = {
+	//		1.0f, 0.0f, 0.0f, 0.0f,
+	//		0.0f, 1.0f, 0.0f, 0.0f,
+	//		0.0f, 0.0f, 1.0f, 0.0f,
+	//		0.0f, 0.0f, 0.0f, 1.0f
+	//	};
 
-		// x rotation
-		/*float rotationMatrix[16] = {
-			1.0f,				0.0f,						0.0f,				0.f,
-			0.0f,				cos(time),					-sin(time),			0.f,
-			0.0f,				sin(time),					cos(time),			0.f,
-			0.f,				0.f,						0.f,				1.f
-		};*/
+	//	// x rotation
+	//	/*float rotationMatrix[16] = {
+	//		1.0f,				0.0f,						0.0f,				0.f,
+	//		0.0f,				cos(time),					-sin(time),			0.f,
+	//		0.0f,				sin(time),					cos(time),			0.f,
+	//		0.f,				0.f,						0.f,				1.f
+	//	};*/
 
-		// y rotation
-		float rotationMatrix[16] = {
-			cos(time),			0.0f,						sin(time),			0.f,
-			0.0f,				1.0f,						0.f,				0.f,
-			-sin(time),			0.f,						cos(time),			0.f,
-			0.f,				0.f,						0.f,				1.f
-		};
+	//	// y rotation
+	//	float rotationMatrix[16] = {
+	//		cos(time),			0.0f,						sin(time),			0.f,
+	//		0.0f,				1.0f,						0.f,				0.f,
+	//		-sin(time),			0.f,						cos(time),			0.f,
+	//		0.f,				0.f,						0.f,				1.f
+	//	};
 
-		// scale matrix
-		float scaleMatrix[16] = {
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
-		};
-	} modelMatrices;
+	//	// scale matrix
+	//	float scaleMatrix[16] = {
+	//		1.0f, 0.0f, 0.0f, 0.0f,
+	//		0.0f, 1.0f, 0.0f, 0.0f,
+	//		0.0f, 0.0f, 1.0f, 0.0f,
+	//		0.0f, 0.0f, 0.0f, 1.0f
+	//	};
+	//} modelMatrices;
 	//////////////////////////////////////////////////////////////////////////////
 
-	struct CameraMatrices {
+	/*struct CameraMatrices {
 		CameraMatrices() {
 			float fov = 60.f;
 			float aspect = 4.f / 3.f;
@@ -148,7 +153,7 @@ auto	Renderer::Render() -> void
 		};
 
 		float project[16];
-	}cameraMatrices;
+	}cameraMatrices;*/
 
 	/*auto matrixLocation1 = glGetUniformLocation(program, "model");
 	glUniformMatrix4fv(matrixLocation1, 1, GL_FALSE, rotationMatrix);*/
@@ -159,26 +164,25 @@ auto	Renderer::Render() -> void
 	auto matrixLocation2 = glGetUniformLocation(program, "project");
 	glUniformMatrix4fv(matrixLocation2, 1, GL_TRUE, project);*/
 
-	glBindTexture(GL_TEXTURE_2D, Device::GetInstance()->texId);
 
-	GLuint modelUBO = 0u;
+	/*GLuint modelUBO = 0u;
 	glGenBuffers(1, &modelUBO);
 	glBindBuffer(GL_UNIFORM_BUFFER, modelUBO);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(modelMatrices), &modelMatrices, GL_DYNAMIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glBindBufferBase(GL_UNIFORM_BUFFER, 0, modelUBO);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, modelUBO);*/
 
-	GLuint camUBO = 0u;
-	glGenBuffers(1, &camUBO);
-	glBindBuffer(GL_UNIFORM_BUFFER, camUBO);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(cameraMatrices), &cameraMatrices, GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	//GLuint camUBO = 0u;
+	//glGenBuffers(1, &camUBO);
+	//glBindBuffer(GL_UNIFORM_BUFFER, camUBO);
+	//glBufferData(GL_UNIFORM_BUFFER, sizeof(cameraMatrices), &cameraMatrices, GL_DYNAMIC_DRAW);
+	//glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	glBindBufferBase(GL_UNIFORM_BUFFER, 1, camUBO);
+	//glBindBufferBase(GL_UNIFORM_BUFFER, 1, camUBO);
 
-	GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
-	glUniform3f(viewPosLoc, 0.0f, 0.0f, 1.0f);
+	//GLuint viewPosLoc = glGetUniformLocation(program, "viewPos");
+	//glUniform3f(viewPosLoc, 0.0f, 0.0f, 1.0f);
 
 	//////////////////////////////////////////////
 	//				LIGHT TESTING				//
@@ -206,18 +210,17 @@ auto	Renderer::Render() -> void
 	glViewport(0, 0, 800, 600);
 	glEnable(GL_DEPTH_TEST);*/
 
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 
 	// draw scene
 	//std::cout << Device::GetInstance()->model1->GetModelVAO() << std::endl;
-	glBindVertexArray(Device::GetInstance()->model->GetModelVAO());
+	//glBindVertexArray(Device::GetInstance()->model->GetModelVAO());
 	//glBindVertexArray(Device::GetInstance()->cube->GetModelVAO());
 
 	//printf("VAO: %d\n", Device::GetInstance()->model1->GetModelVAO());
-	glDrawElements(GL_TRIANGLES, Device::GetInstance()->model->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
+	//glDrawElements(GL_TRIANGLES, Device::GetInstance()->model->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
 	//glDrawElements(GL_TRIANGLES, Device::GetInstance()->cube->GetModelIndexCount(), GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
+	//glBindVertexArray(0);
 
 	// second pass, back to default framebuffer
 	//glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
